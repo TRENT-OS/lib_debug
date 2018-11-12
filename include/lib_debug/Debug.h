@@ -14,7 +14,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include "Debug_Config.h"
+#if !defined(DEBUG_CONFIG_H_FILE)
+#   error a configuration file must be provided! See Debug_Config.h.example
+#else
+#   define Debug_XSTR(d)    Debug_STR(d)
+#   define Debug_STR(d)     #d
+#   include Debug_XSTR(DEBUG_CONFIG_H_FILE)
+#endif
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -218,4 +224,3 @@ Debug_assert(bool cond)
 
 #endif /* <HEADER_UNIQUE_SYMBOL_H> */
 ///@}
-
