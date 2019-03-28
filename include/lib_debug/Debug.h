@@ -172,35 +172,30 @@
 #       define Debug_ASSERT(C__) Debug_assert(C__)
 #   endif
 
-#   define Debug_ASSERT_PRINTFLN(C__, ...)\
-    do\
-    {\
-        if (!(C__))\
-            Debug_PRINTFLN(__VA_ARGS__);\
-        Debug_ASSERT(C__);\
-    }\
-    while(0)
-
-#   if defined (Debug_Config_ASSERT_SELF_PTR)
-#       define Debug_ASSERT_SELF(self)  Debug_assert(self != NULL);
-#   else
-#       define Debug_ASSERT_SELF(self)
-#   endif
-
 #elif defined(Debug_Config_STANDARD_ASSERT)
 
-#include <assert.h>
-
-#define Debug_ASSERT(C__) assert(C__)
-#define Debug_ASSERT_PRINTFLN(C__, ...) assert(C__)
-#define Debug_ASSERT_SELF(self) assert(self != NULL)
+#   include <assert.h>
+#   define Debug_ASSERT(C__) assert(C__)
 
 #else
 
 #define Debug_ASSERT(C__) { bool ok__ = (C__); ok__ = ok__; }
-#define Debug_ASSERT_PRINTFLN(C__, ...)
-#define Debug_ASSERT_SELF(self)
 
+#endif
+
+#define Debug_ASSERT_PRINTFLN(C__, ...) \
+do\
+{\
+    if (!(C__))\
+        Debug_PRINTFLN(__VA_ARGS__);\
+    Debug_ASSERT(C__);\
+}\
+while(0)
+
+#if defined (Debug_Config_ASSERT_SELF_PTR)
+#   define Debug_ASSERT_SELF(self)  Debug_ASSERT(self != NULL);
+#else
+#   define Debug_ASSERT_SELF(self)
 #endif
 
 
