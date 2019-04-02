@@ -212,7 +212,9 @@ INLINE void
 Debug_assert(bool cond)
 {
     if (!cond)
+    {
         Debug_failedAssert();
+    }
 }
 
 #endif
