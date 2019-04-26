@@ -1,13 +1,14 @@
 /**
- * @addtogroup Commons
+ * @addtogroup LibDebug
  * @{
  *
  * @file Debug.h
  *
- * @author fw team
- * @version 1.0
- * @date 01/03/2012
+ * @brief Debugging facility macros and functions
  *
+ * @author Carmelo Pintaudi
+ *
+ * Copyright (C) 2019, Hensoldt Cyber GmbH
  */
 #if !defined(DEBUG_H)
 #define DEBUG_H
