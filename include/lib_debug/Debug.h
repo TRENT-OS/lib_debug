@@ -100,8 +100,8 @@
 #    if !defined(Debug_LOG_ERROR)
 #        define Debug_LOG_ERROR(...)
 #    endif
-#    if !defined(Debug_WARNING)
-#        define Debug_WARNING(...)
+#    if !defined(Debug_LOG_WARNING)
+#        define Debug_LOG_WARNING(...)
 #    endif
 #    if !defined(Debug_LOG_INFO)
 #        define Debug_LOG_INFO(...)
@@ -134,9 +134,9 @@
              Debug_LOG(Debug_LOG_LEVEL_INFO, "INFO", __VA_ARGS__)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_WARNING
-#        define Debug_WARNING(...)
+#        define Debug_LOG_WARNING(...)
 #    else
-#        define Debug_WARNING(...)\
+#        define Debug_LOG_WARNING(...)\
              Debug_LOG(Debug_LOG_LEVEL_FATAL, "WARNING", __VA_ARGS__)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_ERROR
