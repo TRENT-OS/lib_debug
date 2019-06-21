@@ -153,9 +153,7 @@
 #    endif
 #endif
 
-#define Debug_STATIC_ASSERT(C__)  do {                                  \
-                                    enum { assert_static__ = 1/(C__) };\
-                                } while( 0 )
+#define Debug_STATIC_ASSERT(C__) enum { assert_static__ = 1/(C__) }
 
 #if defined(Debug_Config_ENABLE_ASSERT)
 
