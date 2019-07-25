@@ -153,8 +153,6 @@
 #    endif
 #endif
 
-#define Debug_STATIC_ASSERT(C__) enum { assert_static__ = 1/(C__) }
-
 #if defined(Debug_Config_ENABLE_ASSERT)
 
 #   if defined (Debug_Config_ASSERT_PRINT_LINE)
@@ -171,14 +169,18 @@
 #       define Debug_ASSERT(C__) Debug_assert(C__)
 #   endif
 
+#   define Debug_STATIC_ASSERT(C__) enum { assert_static__ = 1/(C__) }
+
 #elif defined(Debug_Config_STANDARD_ASSERT)
 
 #   include <assert.h>
-#   define Debug_ASSERT(C__) assert(C__)
+#   define Debug_ASSERT(C__)        assert(C__)
+#   define Debug_STATIC_ASSERT(C__) static_assert(C__, "Debug_STATIC_ASSERT")
 
 #else
 
 #define Debug_ASSERT(C__) { bool ok__ = (C__); ok__ = ok__; }
+#define Debug_STATIC_ASSERT(C__)
 
 #endif
 
