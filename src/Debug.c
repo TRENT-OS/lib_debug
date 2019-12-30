@@ -25,13 +25,13 @@ Debug_hexDump(
 
     if (NULL == bytesToDump)
     {
-        Debug_PRINTFLN("bytesToDump is NULL!");
+        Debug_LOG_ERROR("bytesToDump is NULL!");
         return;
     }
 
     if (0U == bytesCount)
     {
-        Debug_PRINTFLN("No data to dump!");
+        Debug_LOG_WARNING("No data to dump!");
         return;
     }
 
@@ -50,10 +50,10 @@ Debug_hexDump(
 
         if (CHAR_PER_BYTE != charWritten)
         {
-            Debug_PRINTFLN("Byte to hex conversion error: "\
-                           "CHAR_PER_BYTE = %d, charWritten = %d",
-                           CHAR_PER_BYTE,
-                           charWritten);
+            Debug_LOG_ASSERT("Byte to hex conversion error: "\
+                             "CHAR_PER_BYTE = %d, charWritten = %d",
+                             CHAR_PER_BYTE,
+                             charWritten);
             return;
         }
 
@@ -62,7 +62,7 @@ Debug_hexDump(
         const bool isNewLine = (((dumpPos + 1) % BYTES_PER_LINE) == 0);
         if (isNewLine)
         {
-            Debug_PRINTFLN("%s", dumpLine);
+            Debug_PRINT(debugLvl, "%s", dumpLine);
 
             dumpLine[0] = '\0';
             dumpLineCurrent = dumpLine;
@@ -71,6 +71,6 @@ Debug_hexDump(
 
     if ('\0' != dumpLine[0])
     {
-        Debug_PRINTFLN("%s", dumpLine);
+        Debug_PRINT(debugLvl, "%s", dumpLine);
     }
 }

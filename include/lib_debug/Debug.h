@@ -11,7 +11,6 @@
 
 #pragma once
 
-
 /* Configuration--------------------------------------------------------------*/
 
 #if !defined(DEBUG_CONFIG_H_FILE)
@@ -33,78 +32,76 @@
 #error make a choice!
 #endif
 
-
 /* Includes ------------------------------------------------------------------*/
 
 #include <stdbool.h>
 #include <stddef.h>
 
-
 /* Macro hacks ---------------------------------------------------------------*/
 
-#define Debug_STRINGIZE(x)          Debug_STRINGIZE2(x)
-#define Debug_STRINGIZE2(x)         #x
-
+#define Debug_STRINGIZE(x)  Debug_STRINGIZE2(x)
+#define Debug_STRINGIZE2(x) #x
 
 /* Exported constants --------------------------------------------------------*/
 
-#define Debug_LOG_LEVEL_NONE        0
-#define Debug_LOG_LEVEL_FATAL       1
-#define Debug_LOG_LEVEL_ERROR       2
-#define Debug_LOG_LEVEL_WARNING     3
-#define Debug_LOG_LEVEL_INFO        4
-#define Debug_LOG_LEVEL_DEBUG       5
-#define Debug_LOG_LEVEL_TRACE       6
-
+#define Debug_LOG_LEVEL_NONE    0
+#define Debug_LOG_LEVEL_ASSERT  1
+#define Debug_LOG_LEVEL_FATAL   2
+#define Debug_LOG_LEVEL_ERROR   3
+#define Debug_LOG_LEVEL_WARNING 4
+#define Debug_LOG_LEVEL_INFO    5
+#define Debug_LOG_LEVEL_DEBUG   6
+#define Debug_LOG_LEVEL_TRACE   7
 
 /* Print macro ---------------------------------------------------------------*/
-#if !defined(Debug_PRINTF)
-#   include <stdio.h>
-#   define Debug_PRINTF(...)    \
-    do                          \
-    {                           \
-        printf(__VA_ARGS__);    \
+
+#define Debug_PRINT(LEVEL, ...)  \
+    Debug_PRINT__(LEVEL, __VA_ARGS__)
+
+#if !defined (Debug_Config_PRINT_TO_LOG_SERVER)
+#    include <stdio.h>
+#    define Debug_PRINT__(LEVEL, ...)   \
+        do                              \
+        {                               \
+            printf(__VA_ARGS__);        \
+            printf("\n");               \
+        } while (0)
+#else
+#    include <stdio.h>
+#    include "log_emitter.h"
+
+#    define Debug_PRINT__(LEVEL, ...)               \
+    do                                              \
+    {                                               \
+        Log_emitter_emit_log(LEVEL, __VA_ARGS__);   \
     } while (0)
 #endif
-
-#if !defined(Debug_PRINTFLN)
-#   include <stdio.h>
-#   define Debug_PRINTFLN(...)  \
-    do                          \
-    {                           \
-        printf(__VA_ARGS__);    \
-        printf("\n");           \
-    } while (0)
-#endif
-
 
 /* Build message -------------------------------------------------------------*/
-
-#if defined(Debug_Config_LOG_WITH_FILE_LINE)
-#   define Debug_LOG_MSG_WITH_FILE_LINE(...) \
-         __FILE__ ":" Debug_STRINGIZE(__LINE__) ": " __VA_ARGS__
-#else
-#   define Debug_LOG_MSG_WITH_FILE_LINE(...) \
-        __VA_ARGS__
-#endif
 
 #define Debug_LOG_MSG(...) \
     Debug_LOG_MSG_WITH_FILE_LINE(__VA_ARGS__)
 
-#if defined(Debug_Config_INCLUDE_LEVEL_IN_MSG)
-#define Debug_LOG(LEVEL, LEVEL_STR, ...) \
-        Debug_PRINTFLN(LEVEL_STR ": " Debug_LOG_MSG(__VA_ARGS__))
+#if defined(Debug_Config_LOG_WITH_FILE_LINE)
+#   define Debug_LOG_MSG_WITH_FILE_LINE(...)    \
+         __FILE__ ":" Debug_STRINGIZE(__LINE__) \
+         ": " __VA_ARGS__
 #else
-#define Debug_LOG(LEVEL, LEVEL_STR, ...) \
-        Debug_PRINTFLN(Debug_LOG_MSG(__VA_ARGS__))
+#   define Debug_LOG_MSG_WITH_FILE_LINE(...) \
+        __VA_ARGS__
 #endif
-
 
 /* Check constants------------------------------------------------------------*/
 
 #if !defined(Debug_Config_LOG_LEVEL)  \
     || Debug_Config_LOG_LEVEL == Debug_LOG_LEVEL_NONE
 
+#    if !defined(Debug_LOG)
+#        define Debug_LOG(LEVEL, LEVEL_STR, ...)
+#    endif
+#    if !defined(Debug_LOG_ASSERT)
+#        define Debug_LOG_ASSERT(...)
+#    endif
 #    if !defined(Debug_LOG_FATAL)
 #        define Debug_LOG_FATAL(...)
 #    endif
@@ -125,6 +122,14 @@
 #    endif
 
 #else
+
+#    if defined(Debug_Config_INCLUDE_LEVEL_IN_MSG)
+#    define Debug_LOG(LEVEL, LEVEL_STR, ...) \
+            Debug_PRINT(LEVEL, LEVEL_STR ": " Debug_LOG_MSG(__VA_ARGS__))
+#    else
+#    define Debug_LOG(LEVEL, LEVEL_STR, ...) \
+            Debug_PRINT(LEVEL, Debug_LOG_MSG(__VA_ARGS__))
+#    endif
 
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_TRACE
 #        define Debug_LOG_TRACE(...)
@@ -162,23 +167,32 @@
 #        define Debug_LOG_FATAL(...)\
              Debug_LOG(Debug_LOG_LEVEL_FATAL, "FATAL", __VA_ARGS__)
 #    endif
+#    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_ASSERT
+#        define Debug_LOG_ASSERT(...)
+#    else
+#        define Debug_LOG_ASSERT(...)\
+             Debug_LOG(Debug_LOG_LEVEL_ASSERT, "ASSERT", __VA_ARGS__)
+#    endif
+
 #endif
 
-
 /* Assert checks -------------------------------------------------------------*/
+
+#define Debug_ASSERT_PRINTFLN(C__, ...) \
+do\
+{\
+    if (!(C__)){\
+        Debug_LOG_ASSERT(__VA_ARGS__);\
+    } \
+    Debug_ASSERT(C__);\
+}\
+while(0)
 
 #if defined(Debug_Config_ENABLE_ASSERT)
 
 #   if defined (Debug_Config_ASSERT_PRINT_LINE)
 #       define Debug_ASSERT(C__) \
-        do\
-        {\
-            if (!(C__))\
-                Debug_PRINTFLN("%s: FAILED ASSERT @ line %d !!", __func__, __LINE__);\
-            Debug_assert(C__);\
-        }\
-        while(0)
-
+            Debug_ASSERT_PRINTFLN(C__)
 #   else
 #       define Debug_ASSERT(C__) Debug_assert(C__)
 #   endif
@@ -198,21 +212,11 @@
 
 #endif
 
-#define Debug_ASSERT_PRINTFLN(C__, ...) \
-do\
-{\
-    if (!(C__))\
-        Debug_PRINTFLN(__VA_ARGS__);\
-    Debug_ASSERT(C__);\
-}\
-while(0)
-
 #if defined (Debug_Config_ASSERT_SELF_PTR)
 #   define Debug_ASSERT_SELF(self)  Debug_ASSERT(self != NULL);
 #else
 #   define Debug_ASSERT_SELF(self)
 #endif
-
 
 /* Exported functions ------------------------------------------------------- */
 
