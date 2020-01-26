@@ -137,7 +137,7 @@
 #        define Debug_LOG_WARNING(...)
 #    else
 #        define Debug_LOG_WARNING(...)\
-             Debug_LOG(Debug_LOG_LEVEL_FATAL, "WARNING", __VA_ARGS__)
+             Debug_LOG(Debug_LOG_LEVEL_WARNING, "WARNING", __VA_ARGS__)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_ERROR
 #        define Debug_LOG_ERROR(...)
