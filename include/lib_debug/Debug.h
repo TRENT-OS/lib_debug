@@ -6,8 +6,6 @@
  *
  * @brief Debugging facility macros and functions
  *
- * @author Carmelo Pintaudi
- *
  * Copyright (C) 2019, Hensoldt Cyber GmbH
  */
 #if !defined(DEBUG_H)
