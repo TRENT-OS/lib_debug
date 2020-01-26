@@ -8,8 +8,8 @@
  *
  * Copyright (C) 2019, Hensoldt Cyber GmbH
  */
-#if !defined(DEBUG_H)
-#define DEBUG_H
+
+#pragma once
 
 /* Includes ------------------------------------------------------------------*/
 
@@ -218,5 +218,4 @@ Debug_assert(bool cond)
 
 #endif
 
-#endif /* <HEADER_UNIQUE_SYMBOL_H> */
 ///@}
