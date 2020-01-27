@@ -11,7 +11,8 @@
 
 #pragma once
 
-/* Includes ------------------------------------------------------------------*/
+
+/* Configuration--------------------------------------------------------------*/
 
 #if !defined(DEBUG_CONFIG_H_FILE)
 #   error a configuration file must be provided! See Debug_Config.h.example
@@ -20,14 +21,6 @@
 #   define Debug_STR(d)     #d
 #   include Debug_XSTR(DEBUG_CONFIG_H_FILE)
 #endif
-
-#include <stdbool.h>
-#include <stddef.h>
-
-
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-/* Exported macro ------------------------------------------------------------*/
 
 #if !defined (Debug_Config_STANDARD_ASSERT) && \
     !defined (Debug_Config_DISABLE_ASSERT)  && \
@@ -40,14 +33,31 @@
 #error make a choice!
 #endif
 
-#define Debug_LOG_LEVEL_NONE    0
-#define Debug_LOG_LEVEL_FATAL   1
-#define Debug_LOG_LEVEL_ERROR   2
-#define Debug_LOG_LEVEL_WARNING 3
-#define Debug_LOG_LEVEL_INFO    4
-#define Debug_LOG_LEVEL_DEBUG   5
-#define Debug_LOG_LEVEL_TRACE   6
 
+/* Includes ------------------------------------------------------------------*/
+
+#include <stdbool.h>
+#include <stddef.h>
+
+
+/* Macro hacks ---------------------------------------------------------------*/
+
+#define Debug_STRINGIZE(x)          Debug_STRINGIZE2(x)
+#define Debug_STRINGIZE2(x)         #x
+
+
+/* Exported constants --------------------------------------------------------*/
+
+#define Debug_LOG_LEVEL_NONE        0
+#define Debug_LOG_LEVEL_FATAL       1
+#define Debug_LOG_LEVEL_ERROR       2
+#define Debug_LOG_LEVEL_WARNING     3
+#define Debug_LOG_LEVEL_INFO        4
+#define Debug_LOG_LEVEL_DEBUG       5
+#define Debug_LOG_LEVEL_TRACE       6
+
+
+/* Print macro ---------------------------------------------------------------*/
 #if !defined(Debug_PRINTF)
 #   include <stdio.h>
 #   define Debug_PRINTF(...)    \
@@ -56,6 +66,7 @@
         printf(__VA_ARGS__);    \
     } while (0)
 #endif
+
 #if !defined(Debug_PRINTFLN)
 #   include <stdio.h>
 #   define Debug_PRINTFLN(...)  \
@@ -66,11 +77,8 @@
     } while (0)
 #endif
 
-#define Debug_STRINGIZE(x) Debug_STRINGIZE2(x)
-#define Debug_STRINGIZE2(x) #x
 
-#define Debug_LOG_MSG(...) \
-    Debug_LOG_MSG_WITH_FILE_LINE(__VA_ARGS__)
+/* Build message -------------------------------------------------------------*/
 
 #if defined(Debug_Config_LOG_WITH_FILE_LINE)
 #   define Debug_LOG_MSG_WITH_FILE_LINE(...) \
@@ -80,6 +88,9 @@
         __VA_ARGS__
 #endif
 
+#define Debug_LOG_MSG(...) \
+    Debug_LOG_MSG_WITH_FILE_LINE(__VA_ARGS__)
+
 #if defined(Debug_Config_INCLUDE_LEVEL_IN_MSG)
 #define Debug_LOG(LEVEL, LEVEL_STR, ...) \
         Debug_PRINTFLN(LEVEL_STR ": " Debug_LOG_MSG(__VA_ARGS__))
@@ -87,6 +98,9 @@
 #define Debug_LOG(LEVEL, LEVEL_STR, ...) \
         Debug_PRINTFLN(Debug_LOG_MSG(__VA_ARGS__))
 #endif
+
+
+/* Check constants------------------------------------------------------------*/
 
 #if !defined(Debug_Config_LOG_LEVEL)  \
     || Debug_Config_LOG_LEVEL == Debug_LOG_LEVEL_NONE
@@ -149,6 +163,9 @@
              Debug_LOG(Debug_LOG_LEVEL_FATAL, "FATAL", __VA_ARGS__)
 #    endif
 #endif
+
+
+/* Assert checks -------------------------------------------------------------*/
 
 #if defined(Debug_Config_ENABLE_ASSERT)
 
