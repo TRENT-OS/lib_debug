@@ -73,9 +73,8 @@
     Debug_LOG_MSG_WITH_FILE_LINE(__VA_ARGS__)
 
 #if defined(Debug_Config_LOG_WITH_FILE_LINE)
-#   define Debug_LOG_MSG_WITH_FILE_LINE(...)    \
-         __FILE__ ":" Debug_STRINGIZE(__LINE__) \
-         ": " __VA_ARGS__
+#   define Debug_LOG_MSG_WITH_FILE_LINE(...) \
+         __FILE__ ":" Debug_STRINGIZE(__LINE__) ": " __VA_ARGS__
 #else
 #   define Debug_LOG_MSG_WITH_FILE_LINE(...) \
         __VA_ARGS__
