@@ -6,14 +6,12 @@
  *
  * @brief Debugging facility macros and functions
  *
- * @author Carmelo Pintaudi
- *
  * Copyright (C) 2019, Hensoldt Cyber GmbH
  */
-#if !defined(DEBUG_H)
-#define DEBUG_H
 
-/* Includes ------------------------------------------------------------------*/
+#pragma once
+
+/* Configuration--------------------------------------------------------------*/
 
 #if !defined(DEBUG_CONFIG_H_FILE)
 #   error a configuration file must be provided! See Debug_Config.h.example
@@ -22,11 +20,6 @@
 #   define Debug_STR(d)     #d
 #   include Debug_XSTR(DEBUG_CONFIG_H_FILE)
 #endif
-
-#include <stdbool.h>
-#include <stddef.h>
-
-/* Exported types ------------------------------------------------------------*/
 
 #if !defined (Debug_Config_STANDARD_ASSERT) && \
     !defined (Debug_Config_DISABLE_ASSERT)  && \
@@ -38,6 +31,11 @@
     !defined (Debug_Config_NO_ASSERT_SELF_PTR)
 #error make a choice!
 #endif
+
+/* Includes ------------------------------------------------------------------*/
+
+#include <stdbool.h>
+#include <stddef.h>
 
 /* Macro hacks ---------------------------------------------------------------*/
 
@@ -55,7 +53,6 @@
 #define Debug_LOG_LEVEL_DEBUG   6
 #define Debug_LOG_LEVEL_TRACE   7
 
-/* Exported macro ------------------------------------------------------------*/
 /* Print macro ---------------------------------------------------------------*/
 
 #define Debug_PRINT(LEVEL, ...)  \
@@ -241,5 +238,4 @@ Debug_assert(bool cond)
 
 #endif
 
-#endif /* <HEADER_UNIQUE_SYMBOL_H> */
 ///@}
