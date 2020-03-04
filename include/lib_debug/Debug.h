@@ -58,6 +58,10 @@
 #define Debug_PRINT(LEVEL, ...)  \
     Debug_PRINT__(LEVEL, __VA_ARGS__)
 
+// When redirecting stdout to a file, printf works in a block-buffered manner,
+// not flushing the buffer when encountering '\n'. This can lead to loss of 
+// data in the log, if the proxy locks at the wrong moment in time. Using fflush()
+// we can force the immediate update of the logfile
 #if !defined (Debug_Config_PRINT_TO_LOG_SERVER)
 #    include <stdio.h>
 #    define Debug_PRINT__(LEVEL, ...)   \
@@ -65,6 +69,7 @@
         {                               \
             printf(__VA_ARGS__);        \
             printf("\n");               \
+            fflush(stdout);             \
         } while (0)
 #else
 #    include <stdio.h>
