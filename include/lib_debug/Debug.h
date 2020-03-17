@@ -135,19 +135,19 @@
 #        define Debug_LOG_TRACE(...)
 #    else
 #        define Debug_LOG_TRACE(...)\
-             Debug_LOG(Debug_LOG_LEVEL_TRACE, "TRACE", __VA_ARGS__)
+             Debug_LOG(Debug_LOG_LEVEL_TRACE, "  TRACE", __VA_ARGS__)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_DEBUG
 #        define Debug_LOG_DEBUG(...)
 #    else
 #        define Debug_LOG_DEBUG(...)\
-             Debug_LOG(Debug_LOG_LEVEL_DEBUG, "DEBUG", __VA_ARGS__)
+             Debug_LOG(Debug_LOG_LEVEL_DEBUG, "  DEBUG", __VA_ARGS__)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_INFO
 #        define Debug_LOG_INFO(...)
 #    else
 #        define Debug_LOG_INFO(...)\
-             Debug_LOG(Debug_LOG_LEVEL_INFO, "INFO", __VA_ARGS__)
+             Debug_LOG(Debug_LOG_LEVEL_INFO, "   INFO", __VA_ARGS__)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_WARNING
 #        define Debug_LOG_WARNING(...)
@@ -159,19 +159,19 @@
 #        define Debug_LOG_ERROR(...)
 #    else
 #        define Debug_LOG_ERROR(...)\
-             Debug_LOG(Debug_LOG_LEVEL_ERROR, "ERROR", __VA_ARGS__)
+             Debug_LOG(Debug_LOG_LEVEL_ERROR, "  ERROR", __VA_ARGS__)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_FATAL
 #        define Debug_LOG_FATAL(...)
 #    else
 #        define Debug_LOG_FATAL(...)\
-             Debug_LOG(Debug_LOG_LEVEL_FATAL, "FATAL", __VA_ARGS__)
+             Debug_LOG(Debug_LOG_LEVEL_FATAL, "  FATAL", __VA_ARGS__)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_ASSERT
 #        define Debug_LOG_ASSERT(...)
 #    else
 #        define Debug_LOG_ASSERT(...)\
-             Debug_LOG(Debug_LOG_LEVEL_ASSERT, "ASSERT", __VA_ARGS__)
+             Debug_LOG(Debug_LOG_LEVEL_ASSERT, " ASSERT", __VA_ARGS__)
 #    endif
 
 #endif
