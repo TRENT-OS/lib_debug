@@ -4,7 +4,7 @@
  * @brief Implemention of debug functionality is placed here.
  *
  */
-#include "lib_debug/Debug.h"
+#include "SeosLogger.h"
 
 #include <stdint.h>
 
