@@ -68,12 +68,12 @@
         } while (0)
 #else
 #    include <stdio.h>
-#    include "log_emitter.h"
+#    include "OS_LoggerEmitter.h"
 
 #    define Debug_PRINT__(LEVEL, ...)               \
     do                                              \
     {                                               \
-        Log_emitter_emit_log(LEVEL, __VA_ARGS__);   \
+        OS_LoggerEmitter_log(LEVEL, __VA_ARGS__);   \
     } while (0)
 #endif
 
