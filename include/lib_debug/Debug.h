@@ -33,7 +33,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-
+#include <stdio.h>
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -59,22 +59,12 @@
     Debug_PRINT__(LEVEL, __VA_ARGS__)
 
 #if !defined (Debug_Config_PRINT_TO_LOG_SERVER)
-#    include <stdio.h>
 #    define Debug_PRINT__(LEVEL, ...)   \
         do                              \
         {                               \
             printf(__VA_ARGS__);        \
             printf("\n");               \
         } while (0)
-#else
-#    include <stdio.h>
-#    include "OS_LoggerEmitter.h"
-
-#    define Debug_PRINT__(LEVEL, ...)               \
-    do                                              \
-    {                                               \
-        OS_LoggerEmitter_log(LEVEL, __VA_ARGS__);   \
-    } while (0)
 #endif
 
 /* Build message -------------------------------------------------------------*/
