@@ -15,6 +15,7 @@
 void
 Debug_hexDump(
     int debugLvl,
+    char* desc,
     const void* bytesToDump,
     size_t bytesCount)
 {
@@ -62,7 +63,7 @@ Debug_hexDump(
         const bool isNewLine = (((dumpPos + 1) % BYTES_PER_LINE) == 0);
         if (isNewLine)
         {
-            Debug_PRINT(debugLvl, "%s", dumpLine);
+            Debug_PRINT(debugLvl, "%s%s", desc, dumpLine);
 
             dumpLine[0] = '\0';
             dumpLineCurrent = dumpLine;
@@ -71,6 +72,6 @@ Debug_hexDump(
 
     if ('\0' != dumpLine[0])
     {
-        Debug_PRINT(debugLvl, "%s", dumpLine);
+        Debug_PRINT(debugLvl, "%s%s", desc, dumpLine);
     }
 }

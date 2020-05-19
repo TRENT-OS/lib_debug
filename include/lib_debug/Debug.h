@@ -72,12 +72,20 @@
 #define Debug_LOG_MSG(...) \
     Debug_LOG_MSG_WITH_FILE_LINE(__VA_ARGS__)
 
+#define Debug_DUMP_MSG(...) \
+    Debug_DUMP_MSG_WITH_FILE_LINE(__VA_ARGS__)
+
 #if defined(Debug_Config_LOG_WITH_FILE_LINE)
 #   define Debug_LOG_MSG_WITH_FILE_LINE(...)    \
          __FILE__ ":" Debug_STRINGIZE(__LINE__) \
          ": " __VA_ARGS__
+#   define Debug_DUMP_MSG_WITH_FILE_LINE(...)    \
+         __FILE__ ":" Debug_STRINGIZE(__LINE__) \
+         ": ", __VA_ARGS__
 #else
 #   define Debug_LOG_MSG_WITH_FILE_LINE(...) \
+        __VA_ARGS__
+#   define Debug_DUMP_MSG_WITH_FILE_LINE(...) \
         __VA_ARGS__
 #endif
 
@@ -85,6 +93,8 @@
 
 #if !defined(Debug_Config_LOG_LEVEL)  \
     || Debug_Config_LOG_LEVEL == Debug_LOG_LEVEL_NONE
+
+/* Debug_LOG -----------------------------------------------------------------*/
 
 #    if !defined(Debug_LOG)
 #        define Debug_LOG(LEVEL, LEVEL_STR, ...)
@@ -111,7 +121,36 @@
 #        define Debug_LOG_TRACE(...)
 #    endif
 
+/* Debug_DUMP ----------------------------------------------------------------*/
+
+#    if !defined(Debug_DUMP)
+#        define Debug_DUMP(LEVEL, LEVEL_STR, ...)
+#    endif
+#    if !defined(Debug_DUMP_ASSERT)
+#        define Debug_DUMP_ASSERT(...)
+#    endif
+#    if !defined(Debug_DUMP_FATAL)
+#        define Debug_DUMP_FATAL(...)
+#    endif
+#    if !defined(Debug_DUMP_ERROR)
+#        define Debug_DUMP_ERROR(...)
+#    endif
+#    if !defined(Debug_DUMP_WARNING)
+#        define Debug_DUMP_WARNING(...)
+#    endif
+#    if !defined(Debug_DUMP_INFO)
+#        define Debug_DUMP_INFO(...)
+#    endif
+#    if !defined(Debug_DUMP_DEBUG)
+#        define Debug_DUMP_DEBUG(...)
+#    endif
+#    if !defined(Debug_DUMP_TRACE)
+#        define Debug_DUMP_TRACE(...)
+#    endif
+
 #else
+
+/* Debug_LOG -----------------------------------------------------------------*/
 
 #    if defined(Debug_Config_INCLUDE_LEVEL_IN_MSG)
 #    define Debug_LOG(LEVEL, LEVEL_STR, ...) \
@@ -162,6 +201,58 @@
 #    else
 #        define Debug_LOG_ASSERT(...)\
              Debug_LOG(Debug_LOG_LEVEL_ASSERT, " ASSERT", __VA_ARGS__)
+#    endif
+
+/* Debug_DUMP ----------------------------------------------------------------*/
+
+#    if defined(Debug_Config_INCLUDE_LEVEL_IN_MSG)
+#    define Debug_DUMP(LEVEL, LEVEL_STR, ...) \
+            Debug_hexDump(LEVEL, LEVEL_STR ": " Debug_DUMP_MSG(__VA_ARGS__))
+#    else
+#    define Debug_DUMP(LEVEL, LEVEL_STR, ...) \
+            Debug_hexDump(LEVEL, Debug_DUMP_MSG(__VA_ARGS__))
+#    endif
+#    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_TRACE
+#        define Debug_DUMP_TRACE(...)
+#    else
+#        define Debug_DUMP_TRACE(buf, len)\
+             Debug_DUMP(Debug_LOG_LEVEL_TRACE, "  TRACE", buf, len)
+#    endif
+#    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_DEBUG
+#        define Debug_DUMP_DEBUG(...)
+#    else
+#        define Debug_DUMP_DEBUG(buf, len)\
+             Debug_DUMP(Debug_LOG_LEVEL_DEBUG, "  DEBUG", buf, len)
+#    endif
+#    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_INFO
+#        define Debug_DUMP_INFO(...)
+#    else
+#        define Debug_DUMP_INFO(buf, len)\
+             Debug_DUMP(Debug_LOG_LEVEL_INFO, "   INFO", buf, len)
+#    endif
+#    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_WARNING
+#        define Debug_DUMP_WARNING(...)
+#    else
+#        define Debug_DUMP_WARNING(buf, len)\
+             Debug_DUMP(Debug_LOG_LEVEL_WARNING, "WARNING", buf, len)
+#    endif
+#    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_ERROR
+#        define Debug_DUMP_ERROR(...)
+#    else
+#        define Debug_DUMP_ERROR(buf, len)\
+             Debug_DUMP(Debug_LOG_LEVEL_ERROR, "  ERROR", (buf, len))
+#    endif
+#    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_FATAL
+#        define Debug_DUMP_FATAL(...)
+#    else
+#        define Debug_DUMP_FATAL(buf, len)\
+             Debug_DUMP(Debug_LOG_LEVEL_FATAL, "  FATAL", (buf, len))
+#    endif
+#    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_ASSERT
+#        define Debug_DUMP_ASSERT(...)
+#    else
+#        define Debug_DUMP_ASSERT(buf, len)\
+             Debug_DUMP(Debug_LOG_LEVEL_ASSERT, " ASSERT", buf, len)
 #    endif
 
 #endif
@@ -229,6 +320,10 @@ Debug_assert(bool cond)
 #endif
 
 void
-Debug_hexDump(int debugLvl, const void* bytesToDump, size_t bytesCount);
+Debug_hexDump(
+    int debugLvl,
+    char* desc,
+    const void* bytesToDump,
+    size_t bytesCount);
 
 ///@}
