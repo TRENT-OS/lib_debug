@@ -19,7 +19,7 @@ Debug_hexDump(
     const void* bytesToDump,
     size_t bytesCount)
 {
-    if (Debug_Config_LOG_LEVEL > debugLvl)
+    if (Debug_Config_LOG_LEVEL < debugLvl)
     {
         return;
     }
