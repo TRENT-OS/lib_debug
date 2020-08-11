@@ -240,13 +240,13 @@
 #        define Debug_DUMP_ERROR(...)
 #    else
 #        define Debug_DUMP_ERROR(buf, len)\
-             Debug_DUMP(Debug_LOG_LEVEL_ERROR, "  ERROR", (buf, len))
+             Debug_DUMP(Debug_LOG_LEVEL_ERROR, "  ERROR", buf, len)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_FATAL
 #        define Debug_DUMP_FATAL(...)
 #    else
 #        define Debug_DUMP_FATAL(buf, len)\
-             Debug_DUMP(Debug_LOG_LEVEL_FATAL, "  FATAL", (buf, len))
+             Debug_DUMP(Debug_LOG_LEVEL_FATAL, "  FATAL", buf, len)
 #    endif
 #    if Debug_Config_LOG_LEVEL < Debug_LOG_LEVEL_ASSERT
 #        define Debug_DUMP_ASSERT(...)
