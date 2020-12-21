@@ -40,7 +40,8 @@ Debug_hexDump(
     char* dumpLineCurrent = dumpLine;
     char const* const dumpLineEnd = &dumpLine[DUMP_LINE_LENGTH];
 
-    for (size_t dumpPos = 0; dumpPos < bytesCount; ++dumpPos)
+    size_t line_bytes = 0;
+    for (size_t dumpPos = 0; dumpPos < bytesCount; dumpPos++)
     {
         const int charWritten = snprintf(
                                     dumpLineCurrent,
@@ -59,18 +60,28 @@ Debug_hexDump(
 
         dumpLineCurrent += charWritten;
 
-        const bool isNewLine = (((dumpPos + 1) % BYTES_PER_LINE) == 0);
-        if (isNewLine)
+        if (++line_bytes == BYTES_PER_LINE)
         {
-            Debug_PRINT(debugLvl, "%s%s", desc, dumpLine);
+            Debug_PRINT(
+                debugLvl,
+                "%s 0x%04x: %s",
+                desc,
+                dumpPos + 1 - line_bytes,
+                dumpLine);
 
+            line_bytes = 0;
             dumpLine[0] = '\0';
             dumpLineCurrent = dumpLine;
         }
     }
 
-    if ('\0' != dumpLine[0])
+    if (0 != line_bytes)
     {
-        Debug_PRINT(debugLvl, "%s%s", desc, dumpLine);
+        Debug_PRINT(
+            debugLvl,
+            "%s 0x%04x: %s",
+            desc,
+            bytesCount - line_bytes,
+            dumpLine);
     }
 }
