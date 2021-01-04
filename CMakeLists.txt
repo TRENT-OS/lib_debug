@@ -11,6 +11,11 @@ project(lib_debug C)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
+target_sources(${PROJECT_NAME}
+    INTERFACE
+        "src/Debug.c"
+)
+
 target_include_directories(${PROJECT_NAME}
     INTERFACE
         "include"

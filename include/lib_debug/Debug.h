@@ -234,4 +234,7 @@ Debug_assert(bool cond)
 
 #endif
 
+void
+Debug_hexDump(int debugLvl, const void* bytesToDump, size_t bytesCount);
+
 ///@}
