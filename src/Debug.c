@@ -1,9 +1,7 @@
-/**
- * @copyright (C) 2020, HENSOLDT Cyber GmbH
- *
- * @brief Implemention of debug functionality is placed here.
- *
+/*
+ * Copyright (C) 2020-2021, HENSOLDT Cyber GmbH
  */
+
 #include "lib_debug/Debug.h"
 
 #include <stdint.h>
