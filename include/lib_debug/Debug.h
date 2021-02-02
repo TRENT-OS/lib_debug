@@ -1,5 +1,5 @@
 /**
- * @addtogroup LibDebug
+ * @addtogroup lib_debug
  * @{
  *
  * @file Debug.h
