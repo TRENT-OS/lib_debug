@@ -1,0 +1,18 @@
+/*
+ * Copyright (C) 2019-2021, HENSOLDT Cyber GmbH
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+// Make Debug_ASSERT behave just like the standard assert()
+#define Debug_Config_STANDARD_ASSERT
+// Asserts that the argument is != NULL, otherwise Debug_ASSERT_SELF() is
+// undefined. This is useful with self pointers used in OO fashion C
+// programming
+#define Debug_Config_ASSERT_SELF_PTR
+// Set the log level to the maximum level of verbosity
+#define Debug_Config_LOG_LEVEL  Debug_LOG_LEVEL_TRACE
+// Include the log level in the log message
+#define Debug_Config_INCLUDE_LEVEL_IN_MSG
+// Include the filename and line information in the log message
+#define Debug_Config_LOG_WITH_FILE_LINE
