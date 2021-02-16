@@ -38,18 +38,8 @@ if (DEBUG_CONFIG_H_FILE)
 endif ()
 
 #-------------------------------------------------------------------------------
-# MOCKS
+# TESTING
 #-------------------------------------------------------------------------------
 if (BUILD_TESTING)
-    add_library("${PROJECT_NAME}_mocks" INTERFACE)
-
-    target_include_directories("${PROJECT_NAME}_mocks"
-        INTERFACE
-            "mocks/include"
-            "include"
-    )
-
-    target_compile_definitions("${PROJECT_NAME}_mocks"
-        INTERFACE -DDEBUG_CONFIG_H_FILE=system_config.h
-    )
+    add_subdirectory(mocks)
 endif ()
