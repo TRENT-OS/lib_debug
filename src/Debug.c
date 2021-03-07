@@ -6,10 +6,37 @@
 #include "lib_debug/Debug.h"
 
 #include <stdint.h>
+#include <assert.h>
 
 #define CHAR_PER_BYTE       3
 #define BYTES_PER_LINE      16
 #define DUMP_LINE_LENGTH    ((CHAR_PER_BYTE * BYTES_PER_LINE) + 1)
+
+// Implementation details needed to use -fstack-protector
+
+// value to be used as a stack cannary
+#if UINTPTR_MAX == UINT32_MAX
+const uintptr_t __stack_chk_guard = 0xdeadbeef;
+#elif UINTPTR_MAX == UINT64_MAX
+const uintptr_t __stack_chk_guard = 0xdeadbeefdeadbeef;
+#else
+#error "Unsupported platform"
+#endif
+
+// When compiling with -fstack-protector, __stack_chk_fail() will be called
+// when stack corruption is detected. This function will never return.
+// A description of this feature can be found here
+// https://www.keil.com/support/man/docs/armclang_ref/armclang_ref_cjh1548250046139.htm
+// Even if it is tailored to the ARM GCC, the high level parts apply also 
+// to the mainline compiler.
+void
+__stack_chk_fail(void)
+{
+    Debug_LOG_FATAL("Stack corruption detected! Aborting.\n");
+    assert(0);
+// TODO: Replace assert with something that stops all threads in the
+//       component (control, rpc) and works in release builds.
+}
 
 void
 Debug_hexDump(
