@@ -18,6 +18,7 @@ add_library(${PROJECT_NAME} INTERFACE)
 target_sources(${PROJECT_NAME}
     INTERFACE
         "src/Debug.c"
+        "src/Debug_OS_Error.c"
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -27,6 +28,7 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     INTERFACE
+        os_core_api
         lib_compiler
 )
 
