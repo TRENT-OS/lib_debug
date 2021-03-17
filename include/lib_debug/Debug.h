@@ -68,6 +68,8 @@
             printf(__VA_ARGS__);        \
             printf("\n");               \
         } while (0)
+#else
+#   include Debug_Config_LOG_SERVER_H
 #endif
 
 /* Build message -------------------------------------------------------------*/
