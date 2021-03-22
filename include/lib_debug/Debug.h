@@ -289,10 +289,10 @@ while(0)
 #   define Debug_ASSERT(C__)        assert(C__)
 #   define Debug_STATIC_ASSERT(C__) static_assert(C__, "Debug_STATIC_ASSERT")
 
-#else
+#else // Asserts are disabled.
 
-#define Debug_ASSERT(C__) { bool ok__ = (C__); ok__ = ok__; }
-#define Debug_STATIC_ASSERT(C__)
+#   define Debug_ASSERT(C__)
+#   define Debug_STATIC_ASSERT(C__)
 
 #endif
 
