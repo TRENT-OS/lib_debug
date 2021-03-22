@@ -281,18 +281,28 @@ while(0)
 #       define Debug_ASSERT(C__) Debug_assert(C__)
 #   endif
 
-#   define Debug_STATIC_ASSERT(C__) enum { assert_static__ = 1/(C__) }
-
 #elif defined(Debug_Config_STANDARD_ASSERT)
 
 #   include <assert.h>
 #   define Debug_ASSERT(C__)        assert(C__)
-#   define Debug_STATIC_ASSERT(C__) static_assert(C__, "Debug_STATIC_ASSERT")
 
 #else // Asserts are disabled.
 
 #   define Debug_ASSERT(C__)
-#   define Debug_STATIC_ASSERT(C__)
+
+#endif
+
+// Checking if standard static asserts are available.
+#if ((defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)) \
+        || (defined(__cplusplus) && (__cplusplus >= 201103L)))
+
+#       define Debug_STATIC_ASSERT(_cond_) \
+                static_assert(_cond_, "Debug_STATIC_ASSERT")
+
+#else // Using non standard static assert.
+
+#   define Debug_STATIC_ASSERT(_cond_) \
+                typedef int assert_failed[(_cond_) ? 1 : -1]
 
 #endif
 
