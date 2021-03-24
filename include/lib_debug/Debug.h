@@ -265,10 +265,11 @@
 #define Debug_ASSERT_PRINTFLN(C__, ...) \
 do\
 {\
-    if (!(C__)){\
-        Debug_LOG_ASSERT(__VA_ARGS__);\
+    if (!(C__)) \
+    { \
+        Debug_LOG_ASSERT(__VA_ARGS__); \
+        Debug_ASSERT(false); \
     } \
-    Debug_ASSERT(C__);\
 }\
 while(0)
 
