@@ -18,3 +18,8 @@ target_include_directories("${PROJECT_NAME}_mocks"
 target_compile_definitions("${PROJECT_NAME}_mocks"
     INTERFACE -DDEBUG_CONFIG_H_FILE=system_config.h
 )
+
+target_link_libraries("${PROJECT_NAME}_mocks"
+    INTERFACE
+        lib_compiler_mocks
+)
