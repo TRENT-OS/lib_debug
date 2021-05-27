@@ -9,7 +9,9 @@
 
 #define CHAR_PER_BYTE       3
 #define BYTES_PER_LINE      16
-#define DUMP_LINE_LENGTH    ((CHAR_PER_BYTE * BYTES_PER_LINE) + 1)
+
+// Length of the dump line (excluding null terminator).
+#define DUMP_LINE_LEN       (CHAR_PER_BYTE * BYTES_PER_LINE)
 
 void
 Debug_hexDump(
@@ -36,9 +38,9 @@ Debug_hexDump(
     }
 
     // Buffer needs space for the terminating NULL so that is why '+1'.
-    char  dumpLine[DUMP_LINE_LENGTH];
+    char  dumpLine[DUMP_LINE_LEN + 1];
     char* dumpLineCurrent = dumpLine;
-    char const* const dumpLineEnd = &dumpLine[DUMP_LINE_LENGTH];
+    char const* const dumpLineEnd = &dumpLine[DUMP_LINE_LEN + 1];
 
     for (size_t dumpPos = 0; dumpPos < bytesCount; ++dumpPos)
     {
