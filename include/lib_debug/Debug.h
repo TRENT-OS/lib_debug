@@ -9,7 +9,7 @@
  *
  * @file Debug.h
  *
- * @brief Debugging facility macros and functions
+ * @brief Debug macros and functions
  */
 
 #pragma once

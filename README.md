@@ -1,3 +1,3 @@
-# Debugging Library
+# Debug Library
 
-Debugging facility macros and functions
+The library provides debug macros and functions.
