@@ -277,7 +277,18 @@ while(0)
 
 #if defined(Debug_Config_ENABLE_ASSERT)
 
-#   define Debug_ASSERT(C__) Debug_assert(C__)
+void
+Debug_failedAssert();
+
+#   define Debug_ASSERT(C__) \
+    do \
+    { \
+        if (!(C__)) \
+        { \
+            Debug_failedAssert(); \
+        } \
+    } \
+    while(0)
 
 #elif defined(Debug_Config_STANDARD_ASSERT)
 
@@ -311,24 +322,6 @@ while(0)
 #endif
 
 /* Exported functions ------------------------------------------------------- */
-
-#ifdef Debug_Config_ENABLE_ASSERT
-
-#include "lib_compiler/compiler.h"
-
-void
-Debug_failedAssert();
-
-INLINE void
-Debug_assert(bool cond)
-{
-    if (!cond)
-    {
-        Debug_failedAssert();
-    }
-}
-
-#endif
 
 void
 Debug_hexDump(

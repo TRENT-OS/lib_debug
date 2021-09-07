@@ -29,7 +29,6 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     INTERFACE
         os_core_api
-        lib_compiler
 )
 
 if (DEBUG_CONFIG_H_FILE)
