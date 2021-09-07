@@ -262,7 +262,7 @@
 
 #endif
 
-/* Assert checks -------------------------------------------------------------*/
+/* Configuration-independent assert macro with logging -----------------------*/
 
 #define Debug_ASSERT_PRINTFLN(C__, ...) \
 do\
@@ -275,8 +275,11 @@ do\
 }\
 while(0)
 
+/* Configuration-dependent assert macro --------------------------------------*/
+
 #if defined(Debug_Config_ENABLE_ASSERT)
 
+// Prototype of the custom assert handler that needs to be provided by the user.
 void
 Debug_failedAssert();
 
@@ -301,6 +304,8 @@ Debug_failedAssert();
 
 #endif
 
+/* Static assert macro -------------------------------------------------------*/
+
 // Checking if standard static asserts are available.
 #if ((defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)) \
         || (defined(__cplusplus) && (__cplusplus >= 201103L)))
@@ -314,6 +319,8 @@ Debug_failedAssert();
                 typedef int assert_failed[(_cond_) ? 1 : -1]
 
 #endif
+
+/* Null-pointer assert macro -------------------------------------------------*/
 
 #if defined (Debug_Config_ASSERT_SELF_PTR)
 #   define Debug_ASSERT_SELF(self)  Debug_ASSERT(self != NULL);
