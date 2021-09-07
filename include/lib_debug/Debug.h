@@ -277,17 +277,12 @@ while(0)
 
 #if defined(Debug_Config_ENABLE_ASSERT)
 
-#   if defined (Debug_Config_ASSERT_PRINT_LINE)
-#       define Debug_ASSERT(C__) \
-            Debug_ASSERT_PRINTFLN(C__)
-#   else
-#       define Debug_ASSERT(C__) Debug_assert(C__)
-#   endif
+#   define Debug_ASSERT(C__) Debug_assert(C__)
 
 #elif defined(Debug_Config_STANDARD_ASSERT)
 
 #   include <assert.h>
-#   define Debug_ASSERT(C__)        assert(C__)
+#   define Debug_ASSERT(C__) assert(C__)
 
 #else // Asserts are disabled.
 
