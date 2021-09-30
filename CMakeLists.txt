@@ -15,10 +15,15 @@ project(lib_debug C)
 #-------------------------------------------------------------------------------
 add_library(${PROJECT_NAME} INTERFACE)
 
+set(SOURCE_FILES
+    "src/Debug.c"
+    "src/Debug_OS_Error.c"
+    "src/instrument_functions.c"
+)
+
 target_sources(${PROJECT_NAME}
     INTERFACE
-        "src/Debug.c"
-        "src/Debug_OS_Error.c"
+        ${SOURCE_FILES}
 )
 
 target_include_directories(${PROJECT_NAME}
